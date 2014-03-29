@@ -9,7 +9,7 @@
 #include "videostreamview.h"
 
 VideoStreamView::VideoStreamView(QQuickItem* a_parent) :
-  QQuickItem(a_parent), m_timer(new QTimer(this)), m_decoder(new MultiPartDecoder(this)), m_texture(0), m_processedHeader(false)
+    QQuickItem(a_parent), m_timer(new QTimer(this)), m_decoder(new MultiPartDecoder(this)), m_reply(0), m_texture(0), m_processedHeader(false)
 {
     m_timer->setSingleShot(false);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -22,7 +22,22 @@ VideoStreamView::VideoStreamView(QQuickItem* a_parent) :
         update();
     });
 
-    open("http://webcam.modeemi.fi/mjpg/video.mjpg");
+}
+
+QString
+VideoStreamView::url() const
+{
+    return m_url;
+}
+
+void
+VideoStreamView::setUrl(QString a_url)
+{
+    if (m_reply) {
+        delete m_reply; m_reply = 0;
+    }
+    m_url = a_url;
+    open(m_url);
 }
 
 void

@@ -13,6 +13,7 @@
 class VideoStreamView : public QQuickItem
 {
     Q_OBJECT
+    Q_PROPERTY(QString url READ url WRITE setUrl NOTIFY urlChanged)
 public:
     explicit VideoStreamView(QQuickItem* a_parent = 0);
 
@@ -20,7 +21,11 @@ public:
 
     QSGNode* updatePaintNode(QSGNode *node, UpdatePaintNodeData *);
 
+    QString url() const;
+    void setUrl(QString url);
+
 signals:
+    void urlChanged();
 
 public slots:
 
@@ -29,6 +34,7 @@ private slots:
 private:
     void processHeader(QString a_contentType);
 
+    QString m_url;
 
     QTimer* m_timer;
     MultiPartDecoder* m_decoder;

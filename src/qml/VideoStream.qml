@@ -5,4 +5,6 @@ import Virtaus 0.1
 VideoStreamView {
     width: 640
     height: 480
+
+    url: "http://webcam.modeemi.fi/mjpg/video.mjpg";
 }
