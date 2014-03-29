@@ -20,7 +20,9 @@ OTHER_FILES = \
 # how to kill this particular Creator's plugin
 #    ../rpm/harbour-virtaus.yaml \
     ../rpm/harbour-virtaus.spec \
-    qml/pages/SailCalc.qml \
+    qml/pages/VideoStreamPage.qml \
+    qml/pages/AboutPage.qml \
+    qml/pages/SettingsPage.qml \
     qml/main.qml \
     qml/VideoStream.qml
 

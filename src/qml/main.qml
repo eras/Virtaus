@@ -5,11 +5,9 @@ import "pages"
 ApplicationWindow
 {
     allowedOrientations: [Orientation.Landscape];
-    initialPage: videoStreamComponent
+    initialPage: videoStreamPage
     Component {
-        id: videoStreamComponent
-        VideoStream { }
+        id: videoStreamPage
+        VideoStreamPage { }
     }
 }
-
-
