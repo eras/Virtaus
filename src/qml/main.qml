@@ -4,10 +4,11 @@ import "pages"
 
 ApplicationWindow
 {
-    initialPage: sailCalcComponent
+    allowedOrientations: [Orientation.Landscape];
+    initialPage: videoStreamComponent
     Component {
-        id: sailCalcComponent
-        SailCalc { }
+        id: videoStreamComponent
+        VideoStream { }
     }
 }
 

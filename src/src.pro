@@ -6,7 +6,11 @@ TARGET = harbour-virtaus
 # In the bright future this config line will do a lot of stuff to you
 CONFIG += sailfishapp
 
-SOURCES += main.cpp
+QMAKE_CXXFLAGS += -std=c++0x
+
+SOURCES += main.cpp \
+    videostreamview.cpp \
+    multipartdecoder.cpp
 
 OTHER_FILES = \
 # You DO NOT want .yaml be listed here as Qt Creator's editor is completely not ready for multi package .yaml's
@@ -17,6 +21,11 @@ OTHER_FILES = \
 #    ../rpm/harbour-virtaus.yaml \
     ../rpm/harbour-virtaus.spec \
     qml/pages/SailCalc.qml \
-    qml/main.qml
+    qml/main.qml \
+    qml/VideoStream.qml
 
 INCLUDEPATH += $$PWD
+
+HEADERS += \
+    videostreamview.h \
+    multipartdecoder.h

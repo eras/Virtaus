@@ -9,6 +9,8 @@
 #include <QGuiApplication>
 
 
+#include "videostreamview.h"
+
 int main(int argc, char *argv[])
 {
     // For this example, wizard-generates single line code would be good enough,
@@ -19,6 +21,8 @@ int main(int argc, char *argv[])
 //    Here's how you will add QML components whenever you start using them
 //    Check https://github.com/amarchen/Wikipedia for a more full example
 //    view->engine()->addImportPath(SailfishApp::pathTo("qml/components").toString());
+    qmlRegisterType<VideoStreamView>("Virtaus", 0,1, "VideoStreamView");
+
     view->setSource(SailfishApp::pathTo("qml/main.qml"));
 
     view->show();
