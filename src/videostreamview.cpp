@@ -4,11 +4,12 @@
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 #include <QQuickWindow>
+#include <QRegExp>
 
 #include "videostreamview.h"
 
 VideoStreamView::VideoStreamView(QQuickItem* a_parent) :
-    QQuickItem(a_parent), m_timer(new QTimer(this)), m_decoder(new MultiPartDecoder(this)), m_texture(0)
+  QQuickItem(a_parent), m_timer(new QTimer(this)), m_decoder(new MultiPartDecoder(this)), m_texture(0), m_processedHeader(false)
 {
     m_timer->setSingleShot(false);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -25,21 +26,39 @@ VideoStreamView::VideoStreamView(QQuickItem* a_parent) :
 }
 
 void
+VideoStreamView::processHeader(QString a_contentType)
+{
+    QRegExp regexp("^([^;]*)(?:; (.*))$");
+    if (regexp.exactMatch(a_contentType)) {
+        QString contentType = regexp.cap(1);
+        QString parameter = regexp.cap(2);
+        if (parameter.size()) {
+            QRegExp paramRegexp("^(.*)=(.*)$");
+            if (paramRegexp.exactMatch(parameter)) {
+                if (paramRegexp.cap(1) == "boundary") {
+                    m_decoder->setBoundary(paramRegexp.cap(2));
+                }
+            }
+        }
+    }
+}
+
+void
 VideoStreamView::open(QString url)
 {
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
 
-    connect(manager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(replyFinished(QNetworkReply*)));
+    // connect(manager, SIGNAL(finished(QNetworkReply*)),
+    //         this, SLOT(replyFinished(QNetworkReply*)));
 
-    m_decoder->setBoundary("myboundary");
     m_reply = manager->get(QNetworkRequest(QUrl(url)));
 
-    qDebug() << "Started with" << m_reply;
-    m_decoder->decode(m_reply->readAll());
-    connect(m_reply, &QNetworkReply::readyRead, [=]() {
+    connect(m_reply, &QNetworkReply::readyRead, [this]() {
+        if (!m_processedHeader) {
+            processHeader(m_reply->header(QNetworkRequest::ContentTypeHeader).toString());
+            m_processedHeader = true;
+        }
         QByteArray bytes = m_reply->readAll();
-        //qDebug() << "Received some data:" << bytes.size();
         m_decoder->decode(bytes);
     });
 }

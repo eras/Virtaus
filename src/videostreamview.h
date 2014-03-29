@@ -27,11 +27,16 @@ public slots:
 private slots:
 
 private:
+    void processHeader(QString a_contentType);
+
+
     QTimer* m_timer;
     MultiPartDecoder* m_decoder;
     QNetworkReply* m_reply;
     QByteArray m_image;
     QSGTexture *m_texture;
+
+    bool m_processedHeader;
 };
 
 #endif // VIDEOSTREAMVIEW_H
