@@ -15,7 +15,7 @@ VideoStreamView::VideoStreamView(QQuickItem* a_parent) :
 //    m_timer->start(1000);
     setFlag(QQuickItem::ItemHasContents);
 
-    connect(m_decoder, &MultiPartDecoder::decodedChunk, [this](QList<Header> headers, QByteArray data) {
+    connect(m_decoder, &MultiPartDecoder::decodedChunk, [this](Headers headers, QByteArray data) {
         qDebug() << "Received chunk of" << data.size() << "bytes";
         m_image = data;
         update();

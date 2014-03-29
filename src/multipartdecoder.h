@@ -4,36 +4,9 @@
 #include <QObject>
 #include <QString>
 #include <QByteArray>
+#include <QMap>
 
-class Header: public QObject {
-    Q_OBJECT
-public:
-    Header() {
-        // nothing
-    }
-
-    Header(const Header& a_other) :
-        QObject(0),
-        m_key(a_other.m_key),
-        m_value(a_other.m_value) {
-        // nothing
-    }
-
-    Header(QString a_key, QString a_value) : m_key(a_key), m_value(a_value) {
-        // nothing
-    }
-
-    ~Header() {
-        // nothing
-    }
-
-    QString getKey() const { return m_key; }
-    QString getValue() const { return m_value; }
-
-private:
-    QString m_key;
-    QString m_value;
-};
+typedef QMap<QString, QString> Headers;
 
 class MultiPartDecoder : public QObject
 {
@@ -48,7 +21,7 @@ public:
     void decode(QByteArray a_data);
 
 signals:
-    void decodedChunk(QList<Header> header, QByteArray a_data);
+    void decodedChunk(Headers a_headers, QByteArray a_data);
 
 public slots:
 
@@ -60,11 +33,9 @@ private:
     size_t     m_boundaryOffset;
     QByteArray m_buffer;
 
-    QList<Header> m_header;
+    Headers    m_headers;
     QString    m_headerKey;
     QString    m_headerValue;
-
-    int        m_debugCounter;
 
     enum State {
         STATE_BEGIN, // at first we use this state
