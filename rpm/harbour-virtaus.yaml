@@ -1,5 +1,5 @@
 Name: harbour-virtaus
-Summary: Helloworld Pro for Sailfish
+Summary: Webcam streaming application
 Version: 0.5
 Release: 5
 Group: Qt/Qt
@@ -7,7 +7,7 @@ License: Public domain except for the icon
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |-
-  Missing Helloworld for Sailfish OS. Use this project for a good app start
+  HTTP JPEG webcam streaming application for for example Axis webcams.
 Configure: none
 Builder: qtc5
 PkgConfigBR:
