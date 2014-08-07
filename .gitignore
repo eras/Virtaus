@@ -18,3 +18,4 @@ Makefile
 *.pro.user
 *.pro.user.*
 moc_*
+rpm/harbour-virtaus.spec
