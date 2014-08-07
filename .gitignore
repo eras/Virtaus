@@ -17,3 +17,4 @@ debuglinks.list
 Makefile
 *.pro.user
 *.pro.user.*
+moc_*
